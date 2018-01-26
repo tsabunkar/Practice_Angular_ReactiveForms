@@ -1,20 +1,207 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div style="border: ridge">
+  <div style="background-color: lightblue">
+    Sign Up !
+  </div>
 
+  <form novalidate (submit)="mySaveForm()" [formGroup]="formGroupObj">
+    <label for="firstNamelabel">First Name</label>
+
+    <input id="firstNamelabel"
+           type="text" placeholder="first Name (required)"
+           formControlName="myFirstName">
+
+    <span *ngIf="( (formGroupObj.get('myFirstName').touched ||formGroupObj.get('myFirstName').dirty) && !formGroupObj.get('myFirstName').valid)">
+
+
+  <span *ngIf="formGroupObj.get('myFirstName').errors.required">
+  Please Enter ur name
+  </span>
+
+  <span *ngIf="formGroupObj.get('myFirstName').errors.minlength">
+  Please Enter name which is maxium then 3 length
+  </span>
+
+</span>
+
+
+    <br>
+    <label for="lastNamelabel">Last Name</label>
+
+    <input id="lastNamelabel"
+           type="text" placeholder="last Name (required)"
+           formControlName="mylastName">
+
+    <span *ngIf="( (formGroupObj.get('mylastName').touched ||formGroupObj.get('mylastName').dirty) && !formGroupObj.get('mylastName').valid)">
+
+  <span *ngIf="formGroupObj.get('mylastName').errors.required">
+  Please Enter ur last name
+  </span>
+
+  <span *ngIf="formGroupObj.get('mylastName').errors.minlength">
+  Please Enter name which is maxium then 3 length
+  </span>
+
+</span>
+
+
+    <br>
+    <label>Send Notification</label>
+    <!--Instead of using click event -> We are using watching and reacting to changes-->
+    <input type="radio" value="emailSelec"  formControlName="myNotifiy" > Email
+    <input type="radio" value="phoneSelec"  formControlName="myNotifiy" > Phone
+
+
+
+
+
+
+    <div formGroupName="emailGroup">
+
+      <br>
+      <label for="emailId">Enter Email</label>
+      <input id="emailId"
+             type="text" placeholder="email Id"
+             formControlName="myEmail">
+
+      <span *ngIf="( (formGroupObj.get('emailGroup.myEmail').touched ||formGroupObj.get('emailGroup.myEmail').dirty) && !formGroupObj.get('emailGroup.myEmail').valid)">
+
+  <span *ngIf="formGroupObj.get('emailGroup.myEmail').errors.required">
+  Please Enter email address !!
+  </span>
+
+  <span *ngIf="formGroupObj.get('emailGroup.myEmail').errors.pattern">
+ Invalid email address !!
+  </span>
+
+</span>
+
+      <br>
+      <label for="confirmEmailId">Confirm ur Email</label>
+      <input id="confirmEmailId"
+             type="text" placeholder="confirm email (req)"
+             formControlName="myConfirmEmail">
+
+      <span *ngIf="(formGroupObj.get('emailGroup.myConfirmEmail').touched ||formGroupObj.get('emailGroup.myConfirmEmail').dirty)
+ && (formGroupObj.get('emailGroup.myConfirmEmail').errors || formGroupObj.get('emailGroup').errors)">
+
+  <span *ngIf="formGroupObj.get('emailGroup.myConfirmEmail').errors?.required">
+  Please  confirm ur email address
+  </span>
+
+  <span *ngIf="formGroupObj.get('emailGroup').errors?.mymatch">
+ email address did not match
+  </span>
+
+
+
+</span>
+
+    </div>
+
+
+
+    <br>
+    <label for="phoneId">Enter Phone No</label>
+    <input id="phoneId"
+           type="tel"
+           formControlName="myPhone">
+
+    <span *ngIf="(formGroupObj.get('myPhone').errors)">
+
+  <span *ngIf="formGroupObj.get('myPhone').errors.required">
+  Please Enter phone number
+  </span>
+
+</span>
+
+    <br>
+    <label for="ratingId">Please Provide Rating for our site : </label>
+    <input  id="ratingId"
+            type="number" formControlName="myRating">
+
+    <span *ngIf="( (formGroupObj.get('myRating').touched ||formGroupObj.get('myRating').dirty) && formGroupObj.get('myRating').errors)">
+
+<!--
+this span ele is only executed if custom validation rule is broken !!
+In order to display the error message for the particular custom validation rule name
+ we declare here  as -> (errors.custom_validation_rule_name)
+ -->
+  <span *ngIf="formGroupObj.get('myRating').errors.myrange">
+  Please share ur experience between 1 to 5.
+  </span>
+
+</span>
+
+    <br>
+    <hr>
+
+
+    <input id="sendCatalogId"
+           type="checkbox"
+           formControlName = "mySendCatalog" >
+    Send me your catalog
+    <br >
+    <div *ngIf="formGroupObj.get('mySendCatalog').value">
+
+      <button type="button"  (click)="addAddress()">
+        Add another address
+      </button>
+
+
+
+      <div formArrayName="arrayOfAddrs_FormArray"
+           *ngFor="let addressObj of arrayOfAddrs_FormArray.controls; let i= index">
+
+        <!--  <div formGroupName="addressFormGroup">-->
+        <!--      <div formGroupName="0">-->
+        <div [formGroupName]="i">
+
+
+
+
+          <label>Address Type :    </label>
+          <input type="radio" formControlName="myAddressType" value="home"> Home
+          <input type="radio" formControlName="myAddressType" value="office"> Office
+          <input type="radio" formControlName="myAddressType" value="other"> other
+
+          <br>
+          <label attr.for="{{'streetId' + i}}">Street Address {{i+1}}</label>
+          <input id="{{'streetId' + i}}" type="text" placeholder="street address" formControlName="myStreet">
+
+          <br>
+          <label>City, State, Zip</label>
+          <input type="text" placeholder="City" formControlName="myCity">
+
+          <select formControlName="myState">
+            <option value="" disabled selected hidden>Select a State...</option>
+            <option value="KA">KARNATAKA</option>
+            <option value="AP">AP</option>
+            <option value="TN">TAMIL NADU</option>
+            <option value="MH">MAHARASHTRA</option>
+          </select>
+
+          <input  type="number" placeholder="Zip" formControlName="myZip">
+
+        </div> <!--end of formGroup div ele-->
+
+      </div> <!--end of formArray div ele-->
+
+    </div> <!--end of ngIf div ele-->
+
+
+
+
+    <br><button type="submit" [disabled]="!formGroupObj.valid">Save</button>
+    <br>
+    <button type="button" (click)="testData()">Test</button>
+    <br>
+
+    Dirty : {{formGroupObj.dirty}} <br>
+    Touched : {{formGroupObj.touched}}<br>
+    Valid : {{formGroupObj.valid}}<br>
+    Value : {{formGroupObj.value | json}}<br>
+
+
+  </form>
+
+</div>
